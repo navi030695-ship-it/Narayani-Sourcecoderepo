@@ -32,3 +32,6 @@ jobs:
         scan-type: 'fs'
         scan-ref: '.'
         cache: 'false'
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v7
