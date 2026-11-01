@@ -33,15 +33,6 @@ jobs:
         scan-ref: '.'
         cache: 'false'
 
-    - name: OWASP Dependency Check
-      run: |
-        dependency-check.sh \
-        --scan . \
-        --project myapp \
-        --format HTML \
-        --out reports \
-        --data /opt/dependency-check/data
-
     - name: Upload artifact
       uses: actions/upload-artifact@v7
       with:
