@@ -33,15 +33,25 @@ jobs:
         scan-ref: '.'
         cache: 'false'
 
+    - name: OWASP Dependency Check
+      run: |
+        dependency-check.sh \
+        --scan . \
+        --project myapp \
+        --format HTML \
+        --out reports \
+        --data /opt/dependency-check/data
+
     - name: Upload artifact
       uses: actions/upload-artifact@v7
       with:
-         path: target/*.jar
+        name: app-jar
+        path: target/*.jar
 
   docker-build:
     needs: build
     runs-on: mynewrunner
-    
+
     outputs:
       image_tag: ${{ needs.docker-build.outputs.image_tag }}
 
@@ -51,6 +61,10 @@ jobs:
 
       - name: Download Artifact
         uses: actions/download-artifact@v4
+        with:
+          name: app-jar
+          path: target
+
 
       - name: Docker Login
         uses: docker/login-action@v3
@@ -76,7 +90,3 @@ jobs:
         run: |
           docker build \
             -t ${{ secrets.DOCKER_USERNAME }}/mynarayani:${{ steps.tag.outputs.image_tag }} .
-
-
-
-  
