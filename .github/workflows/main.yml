@@ -86,7 +86,7 @@ jobs:
       - name: Trivy Image Scan
         uses: aquasecurity/trivy-action@v0.36.0
         with:
-          image-ref: ${{ secrets.DOCKER_USERNAME }}/mynarayani:${{ steps.tag.outputs.image_tag }} .
+          image-ref: ${{ secrets.DOCKER_USERNAME }}/mynarayani:${{ steps.tag.outputs.image_tag }}
           format: table
           exit-code: 1
           severity: CRITICAL,HIGH
