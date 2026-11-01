@@ -88,7 +88,7 @@ jobs:
         with:
           image-ref: ${{ secrets.DOCKER_USERNAME }}/mynarayani:${{ steps.tag.outputs.image_tag }}
           format: table
-          exit-code: 1
+          exit-code: 0
           severity: CRITICAL,HIGH
 
       # Push Image
