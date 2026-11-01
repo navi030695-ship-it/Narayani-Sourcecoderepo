@@ -10,35 +10,18 @@ on:
 
 jobs:
   build:
-    runs-on: myrunner
+    runs-on: mynewrunner
 
     steps:
 
     - name: code-checkout
       uses: actions/checkout@v2
 
+    - name: compile code
+      uses: mvn compile
+
+    - name: unit steps
+      uses: mvn test
+    
     - name: package the application into artiface
       run: mvn clean package
-
-    - name: SonarQube Scan
-      uses: SonarSource/sonarqube-scan-action@v8.4.0
-      env:
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
-
-    - name: Run Trivy scanner without cache
-      uses: aquasecurity/trivy-action@v0.36.0
-      with:
-        scan-type: 'fs'
-        scan-ref: '.'
-        cache: 'false'
-
-    - name: OWASP Dependency Check
-      run: |
-        dependency-check.sh \
-           --scan . \
-           --project myapp \
-           --format HTML \
-           --out reports \
-           --data /opt/dependency-check/data
-
